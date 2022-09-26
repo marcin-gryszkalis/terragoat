@@ -20,6 +20,11 @@ resource "google_sql_database_instance" "master_instance" {
 
 resource "google_bigquery_dataset" "dataset" {
   dataset_id = "terragoat_${var.environment}_dataset"
+  # https://github.com/hashicorp/terraform-provider-google/issues/5152
+  access {
+    user_by_email = var.bigdataowner
+    role          = "OWNER"
+  }
   access {
     special_group = "allAuthenticatedUsers"
     role          = "READER"
